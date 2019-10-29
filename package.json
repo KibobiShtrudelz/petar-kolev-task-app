@@ -1,0 +1,22 @@
+{
+  "name": "petar-kolev-task-app",
+  "version": "1.0.0",
+  "description": "Task App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KibobiShtrudelz/petar-kolev-task-app.git"
+  },
+  "author": "Petar Kolev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KibobiShtrudelz/petar-kolev-task-app/issues"
+  },
+  "homepage": "https://github.com/KibobiShtrudelz/petar-kolev-task-app#readme",
+  "dependencies": {
+    "mongodb": "^3.3.3"
+  }
+}
