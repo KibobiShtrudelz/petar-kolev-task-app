@@ -1,22 +1,21 @@
 {
-  "name": "petar-kolev-task-app",
+  "name": "task-manager",
   "version": "1.0.0",
   "description": "Task App",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/KibobiShtrudelz/petar-kolev-task-app.git"
+    "start": "node task-manager/src/index.js",
+    "dev": "nodemon task-manager/src/index.js"
   },
   "author": "Petar Kolev",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/KibobiShtrudelz/petar-kolev-task-app/issues"
-  },
-  "homepage": "https://github.com/KibobiShtrudelz/petar-kolev-task-app#readme",
   "dependencies": {
-    "mongodb": "^3.3.3"
+    "express": "^4.17.1",
+    "mongodb": "^3.3.3",
+    "mongoose": "^5.7.7",
+    "validator": "^12.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   }
 }
