@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 require("./db/mongoose");
-const User = require("./db/models/user");
-const Task = require("./db/models/task");
+const User = require("./models/user");
+const Task = require("./models/task");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -56,7 +56,10 @@ app.get("/tasks/:id", (req, res) => {
 
   Task.findById({ _id })
     .then(task => {
-      return res.status(200).send(task);
+      if (!task) {
+        return res.status(404).send();
+      }
+      res.status(200).send(task);
     })
     .catch(err => res.status(404).send(err));
 });
