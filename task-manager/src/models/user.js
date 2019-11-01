@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -10,6 +11,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
     required: true,
     trim: true,
     lowercase: true,
@@ -38,10 +40,51 @@ const userSchema = new mongoose.Schema({
         throw new Error("Age must be a positive number!");
       }
     }
-  }
+  },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true
+      }
+    }
+  ]
 });
 
-// must be regular function() because the "this" object is important
+// By notating to ".methods" we are attaching a custom method to the User instance
+// Here is a regular function because we need a this binding.
+// These kind of methods are accessable in the instances!
+userSchema.methods.generateAuthToken = async function() {
+  const user = this;
+  const token = jwt.sign({ _id: user._id.toString() }, "mySuperSecretString");
+  console.log("token", token);
+
+  user.tokens = user.tokens.concat({ token });
+  await user.save();
+
+  return token;
+};
+
+// This method is my own custom one. By attaching it to the schema's "statics" I can use it
+// latter from the User instance as method. Static methods are accessable in the Models
+userSchema.statics.findByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("Unable to login");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new Error("Unable to login");
+  }
+
+  return user;
+};
+
+// Hash the plain text password before saving
+// Must be regular function() because the "this" object is important
 userSchema.pre("save", async function(next) {
   const user = this;
 
