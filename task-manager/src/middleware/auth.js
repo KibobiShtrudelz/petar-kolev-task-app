@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.header("Authorization").replace("Bearer ", ""); // here we extract the token from the Headers
+    const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, "mySuperSecretString");
     const user = await User.findOne({
       _id: decoded._id,
@@ -14,7 +14,8 @@ const auth = async (req, res, next) => {
       throw new Error();
     }
 
-    req.user = user; // here we attach the user object to the req which we can reach in the route
+    req.token = token;
+    req.user = user;
     next();
   } catch (e) {
     res.status(401).send({ error: "Please authenticate." });

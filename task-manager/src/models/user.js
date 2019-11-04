@@ -51,13 +51,22 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
+userSchema.methods.toJSON = function() {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.tokens;
+
+  return userObject;
+};
+
 // By notating to ".methods" we are attaching a custom method to the User instance
 // Here is a regular function because we need a this binding.
 // These kind of methods are accessable in the instances!
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, "mySuperSecretString");
-  console.log("token", token);
 
   user.tokens = user.tokens.concat({ token });
   await user.save();
