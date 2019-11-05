@@ -16,17 +16,3 @@ app.listen(PORT, () => {
     `Server is running on port ${PORT}. Node process pid ${process.pid}`
   );
 });
-
-const Task = require("./models/task");
-const User = require("./models/user");
-
-const main = async () => {
-  // const task = await Task.findById("5dc0214311d270722897bafb");
-  // await task.populate("owner").execPopulate();
-  // console.log(task.owner);
-
-  const user = await User.findById("5dc11fa54029fd217f88d1d7");
-  await user.populate("tasks").execPopulate();
-};
-
-main();
