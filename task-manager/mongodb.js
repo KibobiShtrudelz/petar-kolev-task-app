@@ -1,8 +1,7 @@
 // const mongodb = require("mongodb");
-const { MongoClient, ObjectID } = require("mongodb");
+const { MongoClient } = require("mongodb");
 
-const uri =
-  "mongodb+srv://petarkolevtaskapp:petarkolevtaskapp@petar-kolev-task-app-xqylp.mongodb.net/task-manager?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 
 const databaseName = "task-manager";
 
